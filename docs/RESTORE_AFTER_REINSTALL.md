@@ -22,7 +22,7 @@ Do NOT back up:
 # Download from python.org
 
 # 2. Clone the repository
-git clone https://github.com/your-org/OpenAxiom.git
+git clone https://github.com/a740022938/OpenAxiom.git
 cd OpenAxiom
 
 # 3. Create and activate virtual environment

@@ -108,7 +108,7 @@ That's it. The UI starts and you can open a YOLO dataset.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-org/OpenAxiom.git
+git clone https://github.com/a740022938/OpenAxiom.git
 cd OpenAxiom
 
 # 2. Create virtual environment
@@ -148,7 +148,7 @@ python lab_launch_v0.3.2.py
 # Download from https://www.python.org/downloads/
 
 # 2. Clone the code
-git clone https://github.com/your-org/OpenAxiom.git
+git clone https://github.com/a740022938/OpenAxiom.git
 cd OpenAxiom
 
 # 3. Recreate virtual environment
