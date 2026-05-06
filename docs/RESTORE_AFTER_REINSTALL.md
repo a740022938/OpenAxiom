@@ -7,9 +7,9 @@ No need to manually back up:
 
 Must back up manually:
 1. **Dataset directory** — your images + YOLO labels
-2. **`label_backups_batch`** — batch save backups (e.g. `E:\_AXIOM_BACKUPS\label_backups_batch`)
-3. **`OpenAxiom_batch_audit`** — batch audit history (e.g. `E:\_AXIOM_REPORTS\OpenAxiom_batch_audit`)
-4. **Important reports** from `E:\_AXIOM_REPORTS`
+2. **`label_backups_batch`** — batch save backups (e.g. `YOUR_BACKUP_DIR\label_backups_batch`)
+3. **`OpenAxiom_batch_audit`** — batch audit history (e.g. `YOUR_AUDIT_DIR\OpenAxiom_batch_audit`)
+4. **Important reports** (manual copy)
 
 Do NOT back up:
 - `.venv` — always recreate
@@ -33,11 +33,11 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # 5. Restore your dataset to a local directory
-# Example: E:\Mahjong_V1_Project\dataset\
+# Example: YOUR_DATASET_ROOT\dataset\
 
 # 6. (Optional) Restore backups and audit
-#   E:\_AXIOM_BACKUPS\label_backups_batch\
-#   E:\_AXIOM_REPORTS\OpenAxiom_batch_audit\
+#   YOUR_BACKUP_DIR\label_backups_batch\
+#   YOUR_AUDIT_DIR\OpenAxiom_batch_audit\
 
 # 7. Launch OpenAxiom
 python lab_launch_v0.3.2.py

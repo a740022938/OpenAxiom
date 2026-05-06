@@ -3,31 +3,33 @@
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PySide6](https://img.shields.io/badge/PySide6-6.11-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
-![Release](https://img.shields.io/badge/release-v1.0.0-brightgreen)
+![Release](https://img.shields.io/badge/release-v1.0.1-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Windows-blueviolet)
 
 **OpenAxiom — A local PySide6 UI Lab annotation MVP and batch-safe YOLO label tool.**
 
-OpenAxiom is a desktop annotation workspace built with PySide6. It provides a complete annotation workflow: browse, edit, save, restore, and batch-process YOLO-format labels — all with safety gates, automatic backups, and audit trails.
+OpenAxiom is a desktop annotation workspace built with PySide6. It provides a complete
+annotation workflow: browse, edit, save, restore, and batch-process YOLO-format labels
+— all with safety gates, automatic backups, and audit trails.
 
 ---
 
 ## Table of Contents
 
-- [Features](#1-features)
-- [Quick Start](#2-quick-start)
-- [Installation](#3-windows-installation)
-- [Restore After Windows Reinstall](#4-restore-after-windows-reinstall)
-- [Data Folder Setup](#5-data-folder-setup)
-- [Backup and Recovery Policy](#6-backup-and-recovery-policy)
-- [Safety Notes](#7-safety-notes)
-- [Contributing](#8-contributing)
-- [Development Status](#9-development-status)
-- [License](#10-license)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Windows Installation](#windows-installation)
+- [Restore After Windows Reinstall](#restore-after-windows-reinstall)
+- [Data Folder Setup](#data-folder-setup)
+- [Backup and Recovery Policy](#backup-and-recovery-policy)
+- [Safety Notes](#safety-notes)
+- [Contributing](#contributing)
+- [Development Status](#development-status)
+- [License](#license)
 
 ---
 
-## 1. Features
+## Features
 
 ### Core
 - Open project with image + label directory
@@ -42,7 +44,7 @@ OpenAxiom is a desktop annotation workspace built with PySide6. It provides a co
 - YOLO preview (dry-run)
 - Single-label safe save (auto-backup + confirm + verify)
 - Single-label safe restore (auto-backup + confirm + verify)
-- Backup to `E:\_AXIOM_BACKUPS\label_backups_batch\`
+- Backup to `label_backups_batch` directory
 
 ### Quality Gates
 - MVP total check
@@ -56,7 +58,7 @@ OpenAxiom is a desktop annotation workspace built with PySide6. It provides a co
 - Batch save plan (PASS / WARN / BLOCK)
 - Batch backup plan
 - Batch console: batch size 5 / 10 / 20
-- Multi-batch executor (up to 20 batches, ≤400 labels)
+- Multi-batch executor (up to 20 batches, max 400 labels)
 - Per-batch audit trail
 - Batch restore preview
 
@@ -69,9 +71,9 @@ OpenAxiom is a desktop annotation workspace built with PySide6. It provides a co
 
 ---
 
-## 2. Quick Start
+## Quick Start
 
-```bash
+```powershell
 git clone https://github.com/a740022938/OpenAxiom.git
 cd OpenAxiom
 python -m venv .venv
@@ -80,33 +82,20 @@ pip install -r requirements.txt
 python lab_launch_v0.3.2.py
 ```
 
-That's it. The UI starts and you can open a YOLO dataset.
+The UI starts and you can open a YOLO dataset.
 
 ---
 
-## 3. What Is NOT Included
-
-- Dataset (images / labels)
-- Mahjong game images
-- Model weights (`.pt`, `.onnx`)
-- Python virtual environment (`.venv`)
-- Local backup directories (`label_backups_batch`, `_AXIOM_BACKUPS`)
-- Audit logs (`OpenAxiom_batch_audit`)
-- API keys, tokens, passwords
-- User-specific local paths
-
----
-
-## 4. Windows Installation
+## Windows Installation
 
 ### Prerequisites
 - Windows 10 / 11 (64-bit)
 - Python 3.11 (recommended)
-- Git (optional, for cloning)
+- Git
 
 ### Steps
 
-```bash
+```powershell
 # 1. Clone the repository
 git clone https://github.com/a740022938/OpenAxiom.git
 cd OpenAxiom
@@ -124,26 +113,27 @@ pip install -r requirements.txt
 python lab_launch_v0.3.2.py
 ```
 
-> **Note:** You do NOT need to copy `.venv` from another machine. Always recreate it with `pip install -r requirements.txt`.
+> **Note:** You do NOT need to copy `.venv` from another machine.
+> Always recreate it with `pip install -r requirements.txt`.
 
 ---
 
-## 5. Restore After Windows Reinstall
+## Restore After Windows Reinstall
 
 ### Before reinstalling, back up these:
 
 | Item | What to back up | Why |
 |---|---|---|
-| Dataset | `<your_dataset_root>/` | Contains images + labels |
+| Dataset | `YOUR_DATASET_ROOT` | Contains images + labels |
 | `label_backups_batch` | Full directory | Batch backup history |
 | `OpenAxiom_batch_audit` | Full directory | Batch audit trails |
-| Important reports | `_AXIOM_REPORTS/` manually | Reports and governance docs |
+| Important reports | Manual copy | Reports and governance docs |
 
 **Do NOT** manually back up `.venv` or `__pycache__`.
 
 ### After reinstalling Windows:
 
-```bash
+```powershell
 # 1. Install Python 3.11
 # Download from https://www.python.org/downloads/
 
@@ -157,12 +147,12 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # 4. Restore dataset
-# Copy your dataset back to, for example:
-#   E:\Mahjong_V1_Project\dataset\
+# Copy your dataset back to a local directory, for example:
+#   YOUR_DATASET_ROOT/dataset/
 
 # 5. (Optional) Restore backups and audit
-#   E:\_AXIOM_BACKUPS\label_backups_batch\
-#   E:\_AXIOM_REPORTS\OpenAxiom_batch_audit\
+#   YOUR_BACKUP_DIR/label_backups_batch/
+#   YOUR_AUDIT_DIR/OpenAxiom_batch_audit/
 
 # 6. Launch and verify
 python lab_launch_v0.3.2.py
@@ -170,24 +160,24 @@ python lab_launch_v0.3.2.py
 
 ### Verify the restore:
 
-```bash
+```powershell
 python --version            # Should print Python 3.11.x
 pip list                     # Should show PySide6, PyYAML
 python lab_launch_v0.3.2.py  # UI should start
 ```
 
-### Recommended directory layout (example — NOT hardcoded):
+### Recommended directory layout (example — NOT hardcoded)
 
 ```
-E:\Axiom_UI_Lab\Axiom        ← cloned from GitHub
-E:\Mahjong_V1_Project\dataset\     ← your images + labels
-E:\_AXIOM_BACKUPS\label_backups_batch\   ← batch backups
-E:\_AXIOM_REPORTS\OpenAxiom_batch_audit\  ← batch audit
+<your_project_root>/          ← cloned from GitHub
+<your_dataset_root>/dataset/  ← your images + labels
+<your_backup_dir>/label_backups_batch/   ← batch backups
+<your_audit_dir>/OpenAxiom_batch_audit/  ← batch audit
 ```
 
 ---
 
-## 6. Data Folder Setup
+## Data Folder Setup
 
 OpenAxiom lets you choose your dataset at runtime:
 
@@ -196,11 +186,11 @@ OpenAxiom lets you choose your dataset at runtime:
 3. The tool will detect `images/` and `labels/` subdirectories
 4. If auto-detection fails, you can configure paths manually
 
-Use placeholders in documentation — never hardcode personal paths like `<your_username>`.
+Use placeholders in documentation — never hardcode personal paths.
 
 ---
 
-## 7. Backup and Recovery Policy
+## Backup and Recovery Policy
 
 ### Three backup layers
 
@@ -212,9 +202,10 @@ Use placeholders in documentation — never hardcode personal paths like `<your_
 
 ### Why no .venv in source backups
 
-`.venv` contains platform-specific binaries (pip, PySide6 builds). It is **not portable** across machines. Always recreate with:
+`.venv` contains platform-specific binaries (pip, PySide6 builds).
+It is **not portable** across machines. Always recreate with:
 
-```bash
+```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt
@@ -232,25 +223,32 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ---
 
-## 8. Safety Notes
+## Safety Notes
 
 - Always run **batch pre-save check dry-run** before any batch save
 - Always run **zero-byte label scan** after batch save
 - If a batch fails, **stop immediately** — do NOT skip failed batches
-- Before full-dataset batch operations, **test with 1–2 batches first**
+- Before full-dataset batch operations, **test with 1-2 batches first**
 - All batch saves require **manual confirmation** per batch
 - This tool does **NOT** auto-continue to the next batch
 
 ---
 
-## 9. Development Status
+## Contributing
 
-- **v1.0.0** — First GitHub-sealed release of OpenAxiom UI Lab Annotation MVP
-- Platform: Windows 10/11, Python 3.11, PySide6
-- Next direction: merge with `E:\Axiom` mainline, cross-platform support, model integration, plugin architecture
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 10. License
+## Development Status
+
+- **v1.0.1** — Documentation hotfix release
+- Platform: Windows 10/11, Python 3.11, PySide6
+- Next direction: merge with `E:\Axiom` mainline, cross-platform support,
+  model integration, plugin architecture
+
+---
+
+## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE).

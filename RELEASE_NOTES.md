@@ -1,5 +1,14 @@
 # OpenAxiom Release Notes
 
+## v1.0.1 — Documentation Hotfix
+
+- Fix README clone URL to `https://github.com/a740022938/OpenAxiom.git`
+- Fix Windows `.venv` activation command format
+- Fix Markdown table and code block formatting
+- Fix restore guide to use `YOUR_*` placeholders instead of hardcoded paths
+- GitHub default branch changed from `master` to `main`
+- No source code changes in this release
+
 ## v1.0.0 — GitHub 正式封板
 
 ### 里程碑
