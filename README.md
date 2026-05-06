@@ -3,10 +3,11 @@
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PySide6](https://img.shields.io/badge/PySide6-6.11-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
-![Release](https://img.shields.io/badge/release-v1.0.2-brightgreen)
+![Release](https://img.shields.io/badge/release-v1.0.4-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Windows-blueviolet)
 
-OpenAxiom is a local PySide6 UI Lab annotation MVP and batch-safe YOLO label tool.
+OpenAxiom is a local PySide6 UI Lab annotation MVP
+and batch-safe YOLO label tool.
 
 ---
 
@@ -35,7 +36,7 @@ OpenAxiom is a local PySide6 UI Lab annotation MVP and batch-safe YOLO label too
 - Dirty state protection
 - Keyboard shortcuts: Delete / Esc / Enter / A / D
 
-### Safety Save & Restore
+### Safety Save and Restore
 
 - Pre-save check (PASS / WARN / BLOCK)
 - YOLO preview (dry-run)
@@ -114,14 +115,14 @@ pip install -r requirements.txt
 python lab_launch_v0.3.2.py
 ```
 
-> **Note:** You do NOT need to copy .venv from another machine.
+> Note: You do NOT need to copy .venv from another machine.
 > Always recreate it with pip install -r requirements.txt.
 
 ---
 
 ## Restore After Windows Reinstall
 
-### Before reinstalling, back up these:
+### Before reinstalling, back up these
 
 | Item | What to back up | Why |
 |---|---|---|
@@ -129,6 +130,8 @@ python lab_launch_v0.3.2.py
 | label_backups_batch | Full directory | Batch backup history |
 | OpenAxiom_batch_audit | Full directory | Batch audit trails |
 | Important reports | Manual copy | Reports and governance docs |
+
+Do NOT back up .venv or __pycache__.
 
 ### After reinstalling Windows
 
@@ -146,8 +149,8 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # 4. Restore dataset
-# Copy your dataset back to a local directory, for example:
-#   YOUR_DATASET_ROOT/dataset/
+# Copy your dataset back to a local directory.
+# Example: YOUR_DATASET_ROOT/dataset/
 
 # 5. (Optional) Restore backups and audit
 #   YOUR_BACKUP_DIR/label_backups_batch/
@@ -168,24 +171,24 @@ python lab_launch_v0.3.2.py
 ### Recommended directory layout
 
 ```
-YOUR_PROJECT_ROOT/               cloned from GitHub
-YOUR_DATASET_ROOT/dataset/       your images + labels
+YOUR_PROJECT_ROOT/                 cloned from GitHub
+YOUR_DATASET_ROOT/dataset/         your images + labels
 YOUR_BACKUP_DIR/label_backups_batch/   batch backups
 YOUR_AUDIT_DIR/OpenAxiom_batch_audit/  batch audit
 ```
 
-> These are examples, not hardcoded requirements.
+These are examples, not hardcoded requirements.
 
 ---
 
 ## Data Folder Setup
 
-OpenAxiom lets you choose your dataset at runtime:
+OpenAxiom lets you choose your dataset at runtime.
 
-1. Click Open Project
-2. Select the dataset root directory
-3. The tool detects images/ and labels/ subdirectories
-4. If auto-detection fails, configure paths manually
+1. Click Open Project.
+2. Select the dataset root directory.
+3. The tool detects images/ and labels/ subdirectories.
+4. If auto-detection fails, configure paths manually.
 
 ---
 
@@ -199,9 +202,10 @@ OpenAxiom lets you choose your dataset at runtime:
 | full_backup | Source + .venv |
 | data_backup | label_backups_batch + audit |
 
-### Why no .venv in source backups
+### Why not .venv in source backups
 
-.venv contains platform-specific binaries. Always recreate:
+.venv contains platform-specific binaries.
+Always recreate with:
 
 ```powershell
 python -m venv .venv
@@ -223,21 +227,22 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ## Safety Notes
 
-- Always run batch pre-save check dry-run before any batch save
-- Always run zero-byte label scan after batch save
-- If a batch fails, stop immediately
-- Test with 1-2 batches before full-dataset operations
-- All batch saves require manual confirmation per batch
+- Always run batch pre-save check dry-run before any batch save.
+- Always run zero-byte label scan after batch save.
+- If a batch fails, stop immediately.
+- Test with 1-2 batches before full-dataset operations.
+- All batch saves require manual confirmation per batch.
 
 ---
 
 ## Development Status
 
-- v1.0.2 — Markdown formatting release
-- Platform: Windows 10/11, Python 3.11, PySide6
+- v1.0.4 — Documentation final fix release.
+- Platform: Windows 10/11, Python 3.11, PySide6.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE).
+This project is licensed under the MIT License.
+See [LICENSE](LICENSE).

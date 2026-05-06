@@ -1,19 +1,26 @@
+# Python
 .venv/
 venv/
 __pycache__/
-.pytest_cache/
 *.pyc
 *.pyo
 *.cache
+
+# Build
 build/
 dist/
-*.log
+*.egg-info/
+
+# Environment
 .env
 .env.*
+*.log
+
+# OS
 .DS_Store
 Thumbs.db
 
-# data / model / backup
+# Data
 data/
 datasets/
 runs/
@@ -24,7 +31,7 @@ weights/
 *.zip
 *.7z
 
-# OpenAxiom local artifacts
+# OpenAxiom local
 *_BACKUPS/
 *_REPORTS/
 label_backups_batch/
@@ -35,3 +42,7 @@ cleanup_quarantine/
 *.bak
 *.tmp
 *.hotfix
+
+# IDE
+.idea/
+.vscode/
