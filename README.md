@@ -1,8 +1,29 @@
-# OpenAxiom v1.0.0
+# OpenAxiom
 
-**OpenAxiom — UI Lab Annotation MVP / Batch-Safe YOLO Label Tool**
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![PySide6](https://img.shields.io/badge/PySide6-6.11-green)
+![License](https://img.shields.io/badge/license-MIT-orange)
+![Release](https://img.shields.io/badge/release-v1.0.0-brightgreen)
+![Platform](https://img.shields.io/badge/platform-Windows-blueviolet)
+
+**OpenAxiom — A local PySide6 UI Lab annotation MVP and batch-safe YOLO label tool.**
 
 OpenAxiom is a desktop annotation workspace built with PySide6. It provides a complete annotation workflow: browse, edit, save, restore, and batch-process YOLO-format labels — all with safety gates, automatic backups, and audit trails.
+
+---
+
+## Table of Contents
+
+- [Features](#1-features)
+- [Quick Start](#2-quick-start)
+- [Installation](#3-windows-installation)
+- [Restore After Windows Reinstall](#4-restore-after-windows-reinstall)
+- [Data Folder Setup](#5-data-folder-setup)
+- [Backup and Recovery Policy](#6-backup-and-recovery-policy)
+- [Safety Notes](#7-safety-notes)
+- [Contributing](#8-contributing)
+- [Development Status](#9-development-status)
+- [License](#10-license)
 
 ---
 
@@ -48,7 +69,22 @@ OpenAxiom is a desktop annotation workspace built with PySide6. It provides a co
 
 ---
 
-## 2. What Is NOT Included
+## 2. Quick Start
+
+```bash
+git clone https://github.com/a740022938/OpenAxiom.git
+cd OpenAxiom
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+python lab_launch_v0.3.2.py
+```
+
+That's it. The UI starts and you can open a YOLO dataset.
+
+---
+
+## 3. What Is NOT Included
 
 - Dataset (images / labels)
 - Mahjong game images
@@ -61,7 +97,7 @@ OpenAxiom is a desktop annotation workspace built with PySide6. It provides a co
 
 ---
 
-## 3. Windows Installation
+## 4. Windows Installation
 
 ### Prerequisites
 - Windows 10 / 11 (64-bit)
@@ -92,7 +128,7 @@ python lab_launch_v0.3.2.py
 
 ---
 
-## 4. Restore After Windows Reinstall
+## 5. Restore After Windows Reinstall
 
 ### Before reinstalling, back up these:
 
@@ -151,7 +187,7 @@ E:\_AXIOM_REPORTS\OpenAxiom_batch_audit\  ← batch audit
 
 ---
 
-## 5. Data Folder Setup
+## 6. Data Folder Setup
 
 OpenAxiom lets you choose your dataset at runtime:
 
@@ -164,7 +200,7 @@ Use placeholders in documentation — never hardcode personal paths like `<your_
 
 ---
 
-## 6. Backup and Recovery Policy
+## 7. Backup and Recovery Policy
 
 ### Three backup layers
 
@@ -196,7 +232,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ---
 
-## 7. Safety Notes
+## 8. Safety Notes
 
 - Always run **batch pre-save check dry-run** before any batch save
 - Always run **zero-byte label scan** after batch save
@@ -207,7 +243,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ---
 
-## 8. Development Status
+## 9. Development Status
 
 - **v1.0.0** — First GitHub-sealed release of OpenAxiom UI Lab Annotation MVP
 - Platform: Windows 10/11, Python 3.11, PySide6
@@ -215,6 +251,6 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ---
 
-## 9. License
+## 10. License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE).
