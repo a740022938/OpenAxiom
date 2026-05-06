@@ -1,0 +1,235 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Optional, List, Dict, Any, Iterable
+import yaml
+
+from core.context import DatasetInfo
+
+
+YAML_CANDIDATES = ("data.yaml", "dataset.yaml", "yolov8.yaml")
+
+
+def _safe_resolve(path: Path) -> Path:
+    try:
+        return path.resolve()
+    except Exception:
+        return path.absolute()
+
+
+def _is_subpath(child: Path, parent: Path) -> bool:
+    try:
+        child.resolve().relative_to(parent.resolve())
+        return True
+    except Exception:
+        return False
+
+
+def _find_yaml_near(selected: Path) -> Optional[Path]:
+    selected = _safe_resolve(selected)
+
+    # 1. If selected is file and YAML.
+    if selected.is_file() and selected.name.lower() in YAML_CANDIDATES:
+        return selected
+
+    # 2. Current dir exact candidates.
+    if selected.is_dir():
+        for name in YAML_CANDIDATES:
+            p = selected / name
+            if p.exists():
+                return p
+
+    # 3. Common project layout: project/dataset/data.yaml.
+    if selected.is_dir():
+        dataset_dir = selected / "dataset"
+        for name in YAML_CANDIDATES:
+            p = dataset_dir / name
+            if p.exists():
+                return p
+
+    # 4. If user selected images/train, images, labels, models, walk up a few levels.
+    current = selected if selected.is_dir() else selected.parent
+    for parent in [current, *current.parents][:6]:
+        for name in YAML_CANDIDATES:
+            p = parent / name
+            if p.exists():
+                return p
+        dataset_dir = parent / "dataset"
+        for name in YAML_CANDIDATES:
+            p = dataset_dir / name
+            if p.exists():
+                return p
+
+    # 5. Small recursive search from selected/project root.
+    search_roots = []
+    if selected.is_dir():
+        search_roots.append(selected)
+        if (selected / "dataset").exists():
+            search_roots.insert(0, selected / "dataset")
+
+    for root in search_roots:
+        for name in YAML_CANDIDATES:
+            found = list(root.rglob(name))
+            if found:
+                # Prefer shallower file.
+                found.sort(key=lambda p: len(p.parts))
+                return found[0]
+
+    return None
+
+
+def _load_yaml(yaml_path: Path) -> Dict[str, Any]:
+    with yaml_path.open("r", encoding="utf-8") as f:
+        data = yaml.safe_load(f) or {}
+    if not isinstance(data, dict):
+        return {}
+    return data
+
+
+def _resolve_yaml_base(yaml_path: Path, data: Dict[str, Any]) -> Path:
+    """Resolve base path for dataset, with hotfix: ignore invalid absolute 'path' fields.
+
+    If data.path is present but points to a non-existent absolute path, skip it and
+    fall back to the directory of the YAML file. This prevents relying on outdated
+    absolute paths stored in data.yaml.
+    """
+    yaml_dir = yaml_path.parent
+    raw_path = data.get("path")
+
+    if raw_path:
+        p = Path(str(raw_path))
+        if p.is_absolute():
+            if p.exists():
+                return _safe_resolve(p)
+            # ignore invalid absolute path
+        else:
+            candidate = yaml_dir / p
+            if candidate.exists():
+                return _safe_resolve(candidate)
+
+    return _safe_resolve(yaml_dir)
+
+
+def _extract_names(data: Dict[str, Any]) -> List[str]:
+    names = data.get("names")
+    if isinstance(names, list):
+        return [str(x) for x in names]
+
+    if isinstance(names, dict):
+        result = []
+        for k in sorted(names.keys(), key=lambda x: int(x) if str(x).isdigit() else str(x)):
+            result.append(str(names[k]))
+        return result
+
+    nc = data.get("nc")
+    try:
+        nc_int = int(nc)
+        return [f"class_{i}" for i in range(nc_int)]
+    except Exception:
+        return []
+
+
+def _detect_image_and_label_roots(base: Path, yaml_path: Path, selected: Path, data: Dict[str, Any]) -> tuple[Path, Path]:
+    # Preferred standard YOLO roots.
+    standard_image_root = base / "images"
+    standard_label_root = base / "labels"
+
+    if standard_image_root.exists():
+        image_root = standard_image_root
+    else:
+        # Infer from train/val/test.
+        image_root = standard_image_root
+        for key in ("train", "val", "test"):
+            value = data.get(key)
+            if not value:
+                continue
+            candidate = Path(str(value))
+            if not candidate.is_absolute():
+                candidate = base / candidate
+            candidate = _safe_resolve(candidate)
+
+            # train may be base/images/train -> image_root = base/images
+            if candidate.name.lower() in ("train", "val", "test"):
+                image_root = candidate.parent
+            else:
+                image_root = candidate
+            break
+
+    if standard_label_root.exists():
+        label_root = standard_label_root
+    else:
+        # Normal YOLO label root next to images root.
+        if image_root.name.lower() == "images":
+            label_root = image_root.parent / "labels"
+        else:
+            label_root = base / "labels"
+
+    return _safe_resolve(image_root), _safe_resolve(label_root)
+
+
+def _infer_project_root(selected: Path, dataset_root: Path) -> Path:
+    selected = _safe_resolve(selected)
+    dataset_root = _safe_resolve(dataset_root)
+
+    # If dataset root is .../project/dataset, project root is parent.
+    if dataset_root.name.lower() == "dataset":
+        return dataset_root.parent
+
+    # If selected has dataset subdir, selected is project root.
+    if selected.is_dir() and (selected / "dataset").exists():
+        return selected
+
+    return dataset_root
+
+
+def _find_model(project_root: Path) -> Optional[Path]:
+    candidates = [
+        project_root / "models" / "best.pt",
+        project_root / "models" / "last.pt",
+    ]
+    for p in candidates:
+        if p.exists():
+            return _safe_resolve(p)
+
+    model_dir = project_root / "models"
+    if model_dir.exists():
+        pts = sorted(model_dir.glob("*.pt"))
+        if pts:
+            return _safe_resolve(pts[0])
+
+    return None
+
+
+def detect_dataset(selected_dir: str | Path) -> DatasetInfo:
+    selected = _safe_resolve(Path(selected_dir))
+    yaml_path = _find_yaml_near(selected)
+
+    if not yaml_path:
+        raise FileNotFoundError(
+            f"No YOLO yaml found near: {selected}. Expected data.yaml / dataset.yaml / yolov8.yaml."
+        )
+
+    data = _load_yaml(yaml_path)
+    base = _resolve_yaml_base(yaml_path, data)
+    image_root, label_root = _detect_image_and_label_roots(base, yaml_path, selected, data)
+    dataset_root = base
+    project_root = _infer_project_root(selected, dataset_root)
+
+    class_names = _extract_names(data)
+    if not class_names:
+        class_names = ["class_0"]
+
+    training_outputs = project_root / "training_outputs"
+    model_path = _find_model(project_root)
+
+    return DatasetInfo(
+        project_root=_safe_resolve(project_root),
+        dataset_root=_safe_resolve(dataset_root),
+        yaml_path=_safe_resolve(yaml_path),
+        image_root=image_root,
+        label_root=label_root,
+        class_names=class_names,
+        model_path=model_path,
+        training_outputs=_safe_resolve(training_outputs) if training_outputs.exists() else None,
+        source_selected_path=selected,
+    )

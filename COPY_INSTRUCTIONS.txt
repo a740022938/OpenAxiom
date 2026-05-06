@@ -1,0 +1,41 @@
+AXIOM UI LAB CANVAS HOTFIX
+
+问题：
+E:\Axiom_UI_Lab\Axiom v0.3 Lab 里：
+- 图片列表能显示 2000
+- 统计能显示 2000/2000/34
+- 但中间画布不显示图片
+- bbox、标注表、右侧信息为空
+
+原因：
+原 Lab UI 的列表选择和画布绘制联动不可靠。
+本热修将画布改成自绘 ImageCanvas，不再依赖 QGraphicsView 的 scene/fitInView 复杂链路。
+
+覆盖文件：
+E:\Axiom_UI_Lab\Axiom\ui\main_window.py
+
+执行：
+1. 备份原文件：
+Copy-Item "E:\Axiom_UI_Lab\Axiom\ui\main_window.py" "E:\Axiom_UI_Lab\Axiom\ui\main_window.py.bak.canvas_hotfix" -Force
+
+2. 覆盖本包 ui\main_window.py 到：
+E:\Axiom_UI_Lab\Axiom\ui\main_window.py
+
+3. 启动：
+& "E:\Axiom_UI_Lab\Axiom\.venv\Scripts\python.exe" "E:\Axiom_UI_Lab\Axiom\main.py"
+
+4. Open Project:
+E:\Mahjong_V1_Project
+
+验收：
+- 左侧图片列表 2000
+- 中间图片显示
+- bbox 显示
+- 底部标注表显示
+- 点击标注表行，高亮对应 bbox
+- 点击 bbox，右侧信息同步变化
+
+限制：
+只改 UI Lab，不改 E:\Axiom 主线。
+不改 core 数据链路。
+不做训练/AIP/OpenClaw。

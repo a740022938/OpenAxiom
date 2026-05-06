@@ -1,0 +1,37 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.cache
+build/
+dist/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+
+# data / model / backup
+data/
+datasets/
+runs/
+weights/
+*.pt
+*.onnx
+*.engine
+*.zip
+*.7z
+
+# OpenAxiom local artifacts
+*_BACKUPS/
+*_REPORTS/
+label_backups_batch/
+OpenAxiom_batch_audit/
+Mahjong_V1_Project/
+cleanup_quarantine/
+*_backup*
+*.bak
+*.tmp
+*.hotfix

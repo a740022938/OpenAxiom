@@ -1,0 +1,34 @@
+AXIOM PHASE 2 HOTFIX — Project Scanner / old data.yaml path fallback
+
+问题：
+Axiom 打开 E:\Mahjong_V1_Project 时报：
+Image root not found: E:\数据集_v1_synth_2000\images
+
+原因：
+E:\Mahjong_V1_Project\dataset\data.yaml 里还保留了旧绝对路径。
+Axiom 当前 detect_dataset 太相信 data.yaml 的 path 字段。
+
+修复：
+覆盖：
+E:\Axiom\core\dataset_manager.py
+
+新增/覆盖测试脚本：
+E:\Axiom\phase2_test.py
+
+执行：
+cd E:\Axiom
+.\.venv\Scripts\activate
+python phase2_test.py
+python main.py
+
+验收：
+phase2_test.py 应输出：
+DATASET_ROOT = E:\Mahjong_V1_Project\dataset
+IMAGE_ROOT   = E:\Mahjong_V1_Project\dataset\images
+LABEL_ROOT   = E:\Mahjong_V1_Project\dataset\labels
+IMAGE_COUNT  = 2000
+LABEL_EXISTS = True
+BOX_COUNT    > 0
+
+然后 UI 里 Open Project 选择：
+E:\Mahjong_V1_Project
