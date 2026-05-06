@@ -1,5 +1,13 @@
 # OpenAxiom Release Notes
 
+## v1.0.2 — Markdown Formatting Fix
+
+- Rewrite README.md with proper multi-line Markdown
+- Ensure all code blocks render correctly on GitHub
+- Remove all hardcoded local path examples
+- Use YOUR_* placeholders consistently
+- No source code changes
+
 ## v1.0.1 — Documentation Hotfix
 
 - Fix README clone URL to `https://github.com/a740022938/OpenAxiom.git`

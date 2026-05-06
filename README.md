@@ -3,14 +3,10 @@
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PySide6](https://img.shields.io/badge/PySide6-6.11-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
-![Release](https://img.shields.io/badge/release-v1.0.1-brightgreen)
+![Release](https://img.shields.io/badge/release-v1.0.2-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Windows-blueviolet)
 
-**OpenAxiom — A local PySide6 UI Lab annotation MVP and batch-safe YOLO label tool.**
-
-OpenAxiom is a desktop annotation workspace built with PySide6. It provides a complete
-annotation workflow: browse, edit, save, restore, and batch-process YOLO-format labels
-— all with safety gates, automatic backups, and audit trails.
+OpenAxiom is a local PySide6 UI Lab annotation MVP and batch-safe YOLO label tool.
 
 ---
 
@@ -23,7 +19,6 @@ annotation workflow: browse, edit, save, restore, and batch-process YOLO-format 
 - [Data Folder Setup](#data-folder-setup)
 - [Backup and Recovery Policy](#backup-and-recovery-policy)
 - [Safety Notes](#safety-notes)
-- [Contributing](#contributing)
 - [Development Status](#development-status)
 - [License](#license)
 
@@ -32,21 +27,24 @@ annotation workflow: browse, edit, save, restore, and batch-process YOLO-format 
 ## Features
 
 ### Core
+
 - Open project with image + label directory
 - Canvas zoom, pan, fit-to-window
 - Bounding box selection, add, delete, category edit
 - Undo / Redo (Ctrl+Z / Ctrl+Y)
-- Dirty state protection (warns on unsaved changes)
+- Dirty state protection
 - Keyboard shortcuts: Delete / Esc / Enter / A / D
 
 ### Safety Save & Restore
+
 - Pre-save check (PASS / WARN / BLOCK)
 - YOLO preview (dry-run)
 - Single-label safe save (auto-backup + confirm + verify)
 - Single-label safe restore (auto-backup + confirm + verify)
-- Backup to `label_backups_batch` directory
+- Backup to label_backups_batch directory
 
 ### Quality Gates
+
 - MVP total check
 - Project scan (full dataset label consistency)
 - Batch pre-save check dry-run
@@ -55,6 +53,7 @@ annotation workflow: browse, edit, save, restore, and batch-process YOLO-format 
 - Full-save gate check (26 items)
 
 ### Batch Save
+
 - Batch save plan (PASS / WARN / BLOCK)
 - Batch backup plan
 - Batch console: batch size 5 / 10 / 20
@@ -63,6 +62,7 @@ annotation workflow: browse, edit, save, restore, and batch-process YOLO-format 
 - Batch restore preview
 
 ### Review
+
 - Category filter + low-confidence review queue
 - Next / previous low-confidence box
 - Confirm and next
@@ -89,6 +89,7 @@ The UI starts and you can open a YOLO dataset.
 ## Windows Installation
 
 ### Prerequisites
+
 - Windows 10 / 11 (64-bit)
 - Python 3.11 (recommended)
 - Git
@@ -113,8 +114,8 @@ pip install -r requirements.txt
 python lab_launch_v0.3.2.py
 ```
 
-> **Note:** You do NOT need to copy `.venv` from another machine.
-> Always recreate it with `pip install -r requirements.txt`.
+> **Note:** You do NOT need to copy .venv from another machine.
+> Always recreate it with pip install -r requirements.txt.
 
 ---
 
@@ -124,14 +125,12 @@ python lab_launch_v0.3.2.py
 
 | Item | What to back up | Why |
 |---|---|---|
-| Dataset | `YOUR_DATASET_ROOT` | Contains images + labels |
-| `label_backups_batch` | Full directory | Batch backup history |
-| `OpenAxiom_batch_audit` | Full directory | Batch audit trails |
+| Dataset | YOUR_DATASET_ROOT | Contains images + labels |
+| label_backups_batch | Full directory | Batch backup history |
+| OpenAxiom_batch_audit | Full directory | Batch audit trails |
 | Important reports | Manual copy | Reports and governance docs |
 
-**Do NOT** manually back up `.venv` or `__pycache__`.
-
-### After reinstalling Windows:
+### After reinstalling Windows
 
 ```powershell
 # 1. Install Python 3.11
@@ -158,22 +157,24 @@ pip install -r requirements.txt
 python lab_launch_v0.3.2.py
 ```
 
-### Verify the restore:
+### Verify the restore
 
 ```powershell
-python --version            # Should print Python 3.11.x
-pip list                     # Should show PySide6, PyYAML
-python lab_launch_v0.3.2.py  # UI should start
+python --version
+pip list
+python lab_launch_v0.3.2.py
 ```
 
-### Recommended directory layout (example — NOT hardcoded)
+### Recommended directory layout
 
 ```
-<your_project_root>/          ← cloned from GitHub
-<your_dataset_root>/dataset/  ← your images + labels
-<your_backup_dir>/label_backups_batch/   ← batch backups
-<your_audit_dir>/OpenAxiom_batch_audit/  ← batch audit
+YOUR_PROJECT_ROOT/               cloned from GitHub
+YOUR_DATASET_ROOT/dataset/       your images + labels
+YOUR_BACKUP_DIR/label_backups_batch/   batch backups
+YOUR_AUDIT_DIR/OpenAxiom_batch_audit/  batch audit
 ```
+
+> These are examples, not hardcoded requirements.
 
 ---
 
@@ -181,12 +182,10 @@ python lab_launch_v0.3.2.py  # UI should start
 
 OpenAxiom lets you choose your dataset at runtime:
 
-1. Click **"打开工程"** (Open Project)
+1. Click Open Project
 2. Select the dataset root directory
-3. The tool will detect `images/` and `labels/` subdirectories
-4. If auto-detection fails, you can configure paths manually
-
-Use placeholders in documentation — never hardcode personal paths.
+3. The tool detects images/ and labels/ subdirectories
+4. If auto-detection fails, configure paths manually
 
 ---
 
@@ -194,16 +193,15 @@ Use placeholders in documentation — never hardcode personal paths.
 
 ### Three backup layers
 
-| Layer | Command | Content | Frequency |
-|---|---|---|---|
-| **source_only** (default) | `.\scripts\backup_openaxiom_source_only.ps1` | Source code, config, scripts | Every RC / release |
-| **full_backup** | Manual (user decides) | Source + .venv | Major releases |
-| **data_backup** | Manual (user decides) | `label_backups_batch` + audit | After batch save |
+| Layer | Content |
+|---|---|
+| source_only | Source code, config, scripts |
+| full_backup | Source + .venv |
+| data_backup | label_backups_batch + audit |
 
 ### Why no .venv in source backups
 
-`.venv` contains platform-specific binaries (pip, PySide6 builds).
-It is **not portable** across machines. Always recreate with:
+.venv contains platform-specific binaries. Always recreate:
 
 ```powershell
 python -m venv .venv
@@ -214,10 +212,10 @@ pip install -r requirements.txt
 ### Using the backup script
 
 ```powershell
-# Dry-run (default — shows what will be backed up)
-powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.ps1 -DryRun
+# Dry-run
+powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.ps1
 
-# Execute (actually create backup)
+# Execute
 powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.ps1 -Execute
 ```
 
@@ -225,27 +223,18 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ## Safety Notes
 
-- Always run **batch pre-save check dry-run** before any batch save
-- Always run **zero-byte label scan** after batch save
-- If a batch fails, **stop immediately** — do NOT skip failed batches
-- Before full-dataset batch operations, **test with 1-2 batches first**
-- All batch saves require **manual confirmation** per batch
-- This tool does **NOT** auto-continue to the next batch
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+- Always run batch pre-save check dry-run before any batch save
+- Always run zero-byte label scan after batch save
+- If a batch fails, stop immediately
+- Test with 1-2 batches before full-dataset operations
+- All batch saves require manual confirmation per batch
 
 ---
 
 ## Development Status
 
-- **v1.0.1** — Documentation hotfix release
+- v1.0.2 — Markdown formatting release
 - Platform: Windows 10/11, Python 3.11, PySide6
-- Next direction: merge with `E:\Axiom` mainline, cross-platform support,
-  model integration, plugin architecture
 
 ---
 
