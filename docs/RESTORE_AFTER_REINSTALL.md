@@ -61,3 +61,23 @@ python lab_launch_v0.3.2.py
 | .venv missing | Recreate: python -m venv .venv then activate. |
 | Paths changed | The tool asks for dataset path at startup. |
 | Batch backups lost | Copy label_backups_batch from external backup. |
+
+## Additional Notes
+
+This guide is provided as a reference.
+Actual paths depend on your system configuration.
+The software does not enforce any specific directory layout.
+
+
+### Data Recovery
+If you lose your dataset, restore from your own backup.
+The GitHub repository does not contain any data files.
+
+### Environment Recovery
+The virtual environment is recreated from requirements.txt.
+This ensures compatibility with your current Python version.
+
+### Backup Recovery
+Copy label_backups_batch and audit directories back
+to your local machine after reinstalling.
+

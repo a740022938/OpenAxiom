@@ -41,3 +41,22 @@ If PySide6 install fails, install Microsoft Visual C++ Redistributable.
 
 OpenAxiom uses an Open Project dialog.
 No hardcoded paths. Simply point to the new dataset location.
+
+## Getting Help
+
+If the above steps do not resolve your issue,
+please open a GitHub issue with: your OS version,
+Python version, OpenAxiom version, and steps to reproduce.
+
+
+## Performance Issues
+- Large datasets may take longer to scan.
+- Batch operations on 2000+ images require patience.
+- Close other applications to free memory.
+
+## File Format Issues
+- Label files must be UTF-8 encoded.
+- Line endings (CRLF vs LF) are handled automatically.
+- Each line must have exactly 5 columns: class_id cx cy w h.
+- Coordinates must be space-separated, not tab-separated.
+

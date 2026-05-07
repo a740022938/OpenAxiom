@@ -31,3 +31,30 @@
 - [ ] git push origin main
 - [ ] git push origin tag
 - [ ] GitHub Release page created
+
+## Post-Release Checks
+
+- [ ] Verify README on GitHub homepage
+- [ ] Verify docs render correctly
+- [ ] Verify no sensitive info exposed
+- [ ] Verify .venv and data are excluded
+
+
+## Environment Checks
+- [ ] Python 3.11 is installed
+- [ ] Virtual environment is activated
+- [ ] pip install -r requirements.txt succeeds
+- [ ] python lab_launch_v0.3.2.py starts without errors
+
+## Data Checks
+- [ ] Dataset is NOT in staging
+- [ ] Labels are NOT in staging
+- [ ] .venv is NOT in staging
+- [ ] Backup files are NOT in staging
+- [ ] Audit files are NOT in staging
+
+
+---
+Complete all checks before pushing to GitHub.
+If any check fails, fix the issue before proceeding.
+

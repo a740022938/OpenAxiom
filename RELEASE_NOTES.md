@@ -35,3 +35,8 @@
 - Annotation MVP complete.
 - Batch save and restore capabilities.
 - Safety gates and audit trails.
+
+---
+All releases after v1.0.0 are pure documentation fixes.
+No application logic has changed since v1.0.0.
+
