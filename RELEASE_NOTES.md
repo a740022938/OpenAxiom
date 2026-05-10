@@ -1,5 +1,16 @@
 # OpenAxiom Release Notes
 
+## v1.0.6 - Runtime UX Enhancement
+
+- Add centralized version constant (ui/__init__.py).
+- Show version in window title and status bar.
+- Launcher now checks Python version and dependencies with friendly messages.
+- Canvas shows helpful empty-state message instead of bare text.
+- Open Project dialog validates image/label directories with clear warnings.
+- Exception messages now point to README and TROUBLESHOOTING docs.
+- No core annotation logic changes.
+- No data, labels, .venv, backups, or audit files included.
+
 ## v1.0.4 - Documentation Final Fix
 
 - Rewrite all Markdown files with Python to ensure proper multi-line formatting.

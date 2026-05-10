@@ -41,6 +41,7 @@ from core.context import WorkbenchContext, Box
 from core.dataset_manager import detect_dataset
 from core.image_manager import load_images, absolute_image_path
 from core.label_manager import load_labels, label_path_for_image, save_labels
+from ui import APP_NAME, APP_VERSION, APP_BUILD_DATE, VERSION_STRING
 
 
 THEME_QSS = """
@@ -284,7 +285,7 @@ class ImageCanvas(QWidget):
         if not self.pixmap or self.pixmap.isNull():
             painter.setPen(QColor("#a8a8a8"))
             painter.setFont(QFont("Segoe UI", 11))
-            painter.drawText(self.rect(), Qt.AlignCenter, "打开工程并选择图片")
+            painter.drawText(self.rect(), Qt.AlignCenter, "当前未打开工程\n请点击「打开工程」选择数据集目录\n详情请参阅 README.md")
             return
 
         self._render_rect = self._compute_render_rect()
@@ -500,14 +501,14 @@ class MainWindow(QMainWindow):
         self.multi_batch_count = 3
         self.multi_batch_audit_info: dict = {}
 
-        self.setWindowTitle("OpenAxiom — 数据工作区")
+        self.setWindowTitle(f"{APP_NAME} — 数据工作区")
         self.resize(1440, 900)
         self.setStyleSheet(THEME_QSS)
 
         self._build_ui()
         self._connect()
         self._update_undo_redo_buttons()
-        self._set_status("就绪。请打开一个工程以开始。")
+        self._set_status(f"{VERSION_STRING} — 就绪。请打开一个工程以开始。")
         self._update_context_bar()
 
     def _build_ui(self) -> None:
@@ -845,6 +846,9 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(root)
         self.status = QStatusBar()
         self.setStatusBar(self.status)
+        self.version_label = QLabel(VERSION_STRING)
+        self.version_label.setObjectName("subtle")
+        self.status.addPermanentWidget(self.version_label)
         self.zoom_label = QLabel("缩放: 100%")
         self.zoom_label.setObjectName("subtle")
         self.status.addPermanentWidget(self.zoom_label)
@@ -3016,6 +3020,19 @@ class MainWindow(QMainWindow):
             self.ctx.apply_dataset_info(info)
             self.ctx.image_list = load_images(info.image_root)
 
+            if not info.image_root or not info.image_root.exists():
+                QMessageBox.warning(self, "数据集提示",
+                    f"图片目录未找到：{info.image_root}\n\n"
+                    f"请确认所选工程目录包含 images/ 子目录。\n"
+                    f"详情请参阅 README.md / docs/RESTORE_AFTER_REINSTALL.md")
+                return
+            if not info.label_root or not info.label_root.exists():
+                QMessageBox.warning(self, "数据集提示",
+                    f"标签目录未找到：{info.label_root}\n\n"
+                    f"请确认所选工程目录包含 labels/ 子目录。\n"
+                    f"详情请参阅 README.md / docs/RESTORE_AFTER_REINSTALL.md")
+                return
+
             self.project_label.setText(
                 f"工程：\n{info.project_root}\n\n"
                 f"数据集：\n{info.dataset_root}\n\n"
@@ -3046,7 +3063,11 @@ class MainWindow(QMainWindow):
             self._set_status(f"工程已加载。图片数={len(self.ctx.image_list)} 标注数={label_count} 类别数={len(self.ctx.class_names)}")
 
         except Exception as exc:
-            QMessageBox.critical(self, "打开工程失败", str(exc))
+            QMessageBox.critical(self, "打开工程失败",
+                f"无法加载工程：{exc}\n\n"
+                f"请确认所选目录是有效的 YOLO 数据集目录，\n"
+                f"包含 images/ 和 labels/ 子目录。\n"
+                f"详情请参阅 README.md / docs/TROUBLESHOOTING.md")
             self._set_status(f"打开失败：{exc}")
 
     # 键盘快捷键：Delete/Esc/Enter、A/D 画面导航

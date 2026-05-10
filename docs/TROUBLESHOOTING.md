@@ -48,6 +48,24 @@ If the above steps do not resolve your issue,
 please open a GitHub issue with: your OS version,
 Python version, OpenAxiom version, and steps to reproduce.
 
+## Launcher Shows "Python 3.8 or later required"
+
+Install Python 3.11 from python.org and try again.
+
+## Launcher Shows "PySide6 is not installed"
+
+Run:
+
+```powershell
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## Open Project says directory not found
+
+Ensure your dataset has both images/ and labels/ subdirectories.
+See README for the expected directory structure.
+
 
 ## Performance Issues
 - Large datasets may take longer to scan.
