@@ -1,4 +1,12 @@
+import json
+import os
+from pathlib import Path
+
 from PySide6 import QtWidgets
+
+
+DEFAULT_CONFIG_PATH = Path.home() / ".openaxiom" / "config_settings.json"
+
 
 class SettingsWindow(QtWidgets.QDialog):
     def __init__(self, master=None, on_saved_callback=None):
@@ -24,26 +32,20 @@ class SettingsWindow(QtWidgets.QDialog):
         layout.addLayout(btns)
 
     def save_settings(self):
-        # 简易：仅保存语言设定到用户配置文件（路径简单实现）
         lang = self.lang_combo.currentText()
-        import json
-        cfg_path = os.path.join("E:\", "Axiom_UI_Lab", "config_settings.json")
+        cfg_path = DEFAULT_CONFIG_PATH
         cfg = {}
-        if os.path.exists(cfg_path):
-            with open(cfg_path, 'r', encoding='utf-8') as f:
-                try:
-                    cfg = json.load(f)
-                except Exception:
-                    cfg = {}
+        if cfg_path.exists():
+            try:
+                cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+            except Exception:
+                cfg = {}
         if lang == "简体中文":
-            cfg["ui"] = cfg.get("ui", {})
-            cfg["ui"]["language"] = "zh_CN"
+            cfg.setdefault("ui", {})["language"] = "zh_CN"
         else:
-            cfg["ui"] = cfg.get("ui", {})
-            cfg["ui"]["language"] = "en_US"
-        os.makedirs(os.path.dirname(cfg_path), exist_ok=True)
-        with open(cfg_path, 'w', encoding='utf-8') as f:
-            json.dump(cfg, f, ensure_ascii=False, indent=2)
+            cfg.setdefault("ui", {})["language"] = "en_US"
+        cfg_path.parent.mkdir(parents=True, exist_ok=True)
+        cfg_path.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
         if self.on_saved_callback:
             self.on_saved_callback(cfg)
         self.accept()

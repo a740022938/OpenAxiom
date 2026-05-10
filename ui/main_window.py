@@ -1040,7 +1040,7 @@ class MainWindow(QMainWindow):
         self._update_session_summary()
 
     def _get_label_backup_dir(self) -> Path:
-        return Path("E:/_AXIOM_BACKUPS/label_backups")
+        return Path.home() / ".openaxiom" / "backups" / "label_backups"
 
     def _get_label_stem(self) -> str:
         if not self.ctx.current_image_rel:
@@ -1440,7 +1440,7 @@ class MainWindow(QMainWindow):
     def _backup_original_label(self, label_path) -> str:
         import shutil
         from datetime import datetime
-        backup_dir = Path("E:/_AXIOM_BACKUPS/label_backups")
+        backup_dir = self._get_label_backup_dir()
         backup_dir.mkdir(parents=True, exist_ok=True)
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         stem = Path(self.ctx.current_image_rel).stem if self.ctx.current_image_rel else "unknown"
@@ -1485,7 +1485,7 @@ class MainWindow(QMainWindow):
         warn_text = ""
         if result["warnings"]:
             warn_text = "\n\n警告：\n" + "\n".join(f"  • {x}" for x in result["warnings"])
-        backup_dir = "E:/_AXIOM_BACKUPS/label_backups"
+        backup_dir = str(self._get_label_backup_dir())
         confirm_msg = (
             f"将真实写入当前单张 label 文件：\n\n"
             f"目标路径：{label_path}\n"
@@ -1848,7 +1848,7 @@ class MainWindow(QMainWindow):
             return
         from datetime import datetime
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        backup_root = Path(f"E:/_AXIOM_BACKUPS/label_backups_batch/{ts}")
+        backup_root = Path.home() / ".openaxiom" / "backups" / "label_backups_batch" / ts
         plan_items = []
         for rel, lp, n, yl in self.batch_save_plan["pass"]:
             label_path = Path(lp)
@@ -1908,7 +1908,7 @@ class MainWindow(QMainWindow):
             return
         from datetime import datetime
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        backup_root = Path(f"E:/_AXIOM_BACKUPS/label_backups_batch/{ts}")
+        backup_root = Path.home() / ".openaxiom" / "backups" / "label_backups_batch" / ts
         backup_root.mkdir(parents=True, exist_ok=True)
         N = len(candidates)
         confirm_msg = (
@@ -2071,7 +2071,8 @@ class MainWindow(QMainWindow):
         msg += f"本批 label 数：{len(items)}\n\n"
         for rel, lp, n, yl in items:
             msg += f"  • {rel}\n    label={lp}\n    boxes={n}  YOLO 行={yl}\n\n"
-        msg += f"备份目录：E:/_AXIOM_BACKUPS/label_backups_batch/{{批次时间戳}}\n\n"
+        backup_root_display = Path.home() / ".openaxiom" / "backups" / "label_backups_batch" / "{批次时间戳}"
+        msg += f"备份目录：{backup_root_display}\n\n"
         msg += "这是预览，不会写文件。只有点击\"安全保存当前批\"才会真实写入。"
         QMessageBox.information(self, "当前批预览 (dry-run)", msg)
 
@@ -2094,7 +2095,7 @@ class MainWindow(QMainWindow):
                 return
         from datetime import datetime
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        backup_root = Path(f"E:/_AXIOM_BACKUPS/label_backups_batch/{ts}")
+        backup_root = Path.home() / ".openaxiom" / "backups" / "label_backups_batch" / ts
         confirm_msg = (
             f"将真实写入当前批 label：\n\n"
             f"批次：第 {self.current_batch_index + 1} 批\n"
@@ -2176,7 +2177,7 @@ class MainWindow(QMainWindow):
             "backup_dir": str(backup_root)
         }
         # Write audit file
-        audit_dir = Path("E:/_AXIOM_REPORTS/OpenAxiom_batch_audit")
+        audit_dir = Path.home() / ".openaxiom" / "audit"
         audit_dir.mkdir(parents=True, exist_ok=True)
         audit_file = audit_dir / f"batch_audit_{ts}.txt"
         try:
@@ -2494,7 +2495,7 @@ class MainWindow(QMainWindow):
                 audit_msg += f" 备份：{bdir}"
             audit_msg += "\n"
         self.multi_batch_audit_info = {"ts": ts, "success": overall_success, "fail": overall_fail, "audit": audit_msg}
-        audit_dir = Path("E:/_AXIOM_REPORTS/OpenAxiom_batch_audit")
+        audit_dir = Path.home() / ".openaxiom" / "audit"
         audit_dir.mkdir(parents=True, exist_ok=True)
         af = audit_dir / f"multi_batch_audit_{ts}.txt"
         try:
@@ -3011,7 +3012,7 @@ class MainWindow(QMainWindow):
     def open_project(self) -> None:
         if self.is_dirty and not self._confirm_discard_changes():
             return
-        folder = QFileDialog.getExistingDirectory(self, "打开工程", "E:/")
+        folder = QFileDialog.getExistingDirectory(self, "打开工程", str(Path.home()))
         if not folder:
             return
 
