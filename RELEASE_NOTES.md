@@ -1,5 +1,16 @@
 # OpenAxiom Release Notes
 
+## v1.0.7 - Docs Consistency Hotfix
+
+- Fix README release badge and development status to reflect the current
+  release line.
+- Clarify that v1.0.6 included runtime UX source changes.
+- Clarify that v1.0.6 did not modify core annotation logic, bbox drawing,
+  coordinate conversion, safe save, safe restore, batch save, or multi-batch
+  execution logic.
+- No source code changes in v1.0.7.
+- No data, labels, .venv, backups, or audit files included.
+
 ## v1.0.6 - Runtime UX Enhancement
 
 - Add centralized version constant (ui/__init__.py).
@@ -48,6 +59,11 @@
 - Safety gates and audit trails.
 
 ---
-All releases after v1.0.0 are pure documentation fixes.
-No application logic has changed since v1.0.0.
+Release history note:
+v1.0.1 through v1.0.5 were documentation-oriented releases.
+v1.0.6 included runtime UX source changes for startup checks, version display,
+launcher messages, and empty dataset hints, without changing core annotation,
+bbox, coordinate conversion, safe save, safe restore, batch save, or
+multi-batch execution logic.
+v1.0.7 is a documentation consistency hotfix only.
 

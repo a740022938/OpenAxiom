@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PySide6](https://img.shields.io/badge/PySide6-6.11-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
-![Release](https://img.shields.io/badge/release-v1.0.4-brightgreen)
+![Release](https://img.shields.io/badge/release-v1.0.7-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Windows-blueviolet)
 
 OpenAxiom is a local PySide6 UI Lab annotation MVP
@@ -237,7 +237,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ## Development Status
 
-- v1.0.4 — Documentation final fix release.
+- Latest release: v1.0.7 — Documentation consistency hotfix.
+- Previous release: v1.0.6 — Runtime UX Enhancement.
+- v1.0.6 added startup checks, version display, friendlier launcher messages,
+  and clearer empty dataset hints.
+- Core annotation logic, bbox drawing, coordinate conversion, safe save,
+  safe restore, batch save, and multi-batch execution logic were not changed
+  by v1.0.6 or v1.0.7.
 - Platform: Windows 10/11, Python 3.11, PySide6.
 
 ---
