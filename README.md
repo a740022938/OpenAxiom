@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![PySide6](https://img.shields.io/badge/PySide6-6.11-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
-![Release](https://img.shields.io/badge/release-v1.0.7-brightgreen)
+![Release](https://img.shields.io/badge/release-v1.0.8-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-Windows-blueviolet)
 
 OpenAxiom is a local PySide6 UI Lab annotation MVP
@@ -84,6 +84,33 @@ python lab_launch_v0.3.2.py
 ```
 
 The UI starts and you can open a YOLO dataset.
+
+---
+
+## Integrated Tool Mode / AIP Tools Mode
+
+The GitHub quick start above remains the standard standalone development
+workflow. In the integrated AIP/Axiom tools layout on this machine, the
+OpenAxiom GUI can also be launched from the installed tools directory:
+
+```powershell
+Set-Location E:\Axiom\tools\openaxiom
+python .\launch.py
+```
+
+Or use the desktop launcher:
+
+```text
+C:\Users\74002\Desktop\StartOpenAxiom.bat
+```
+
+Notes:
+
+- This opens the local OpenAxiom GUI.
+- It is not a background service like AIP.
+- AIP uses the OpenAxiom readonly bridge separately for dataset checks.
+- Do not use save, restore, or batch-save unless intentionally working in
+  annotation mode.
 
 ---
 
@@ -237,13 +264,15 @@ powershell -ExecutionPolicy Bypass -File .\scripts\backup_openaxiom_source_only.
 
 ## Development Status
 
-- Latest release: v1.0.7 — Documentation consistency hotfix.
-- Previous release: v1.0.6 — Runtime UX Enhancement.
+- Latest release: v1.0.8 — Launcher documentation hotfix.
+- Previous release: v1.0.7 — Documentation consistency hotfix.
+- v1.0.8 documents the verified integrated AIP/Axiom launcher command and
+  desktop launcher without changing core annotation logic.
 - v1.0.6 added startup checks, version display, friendlier launcher messages,
   and clearer empty dataset hints.
 - Core annotation logic, bbox drawing, coordinate conversion, safe save,
   safe restore, batch save, and multi-batch execution logic were not changed
-  by v1.0.6 or v1.0.7.
+  by v1.0.6, v1.0.7, or v1.0.8.
 - Platform: Windows 10/11, Python 3.11, PySide6.
 
 ---

@@ -61,6 +61,27 @@ Run:
 pip install -r requirements.txt
 ```
 
+## Integrated AIP/Axiom Tools Launcher
+
+For the integrated AIP/Axiom tools layout, launch the local OpenAxiom GUI with:
+
+```powershell
+Set-Location E:\Axiom\tools\openaxiom
+python .\launch.py
+```
+
+You can also use the desktop launcher:
+
+```text
+C:\Users\74002\Desktop\StartOpenAxiom.bat
+```
+
+This starts the desktop GUI. It is separate from the AIP background service and
+from the AIP readonly OpenAxiom bridge used for dataset checks.
+
+Do not use save, restore, or batch-save unless you intentionally opened
+OpenAxiom for annotation work.
+
 ## Open Project says directory not found
 
 Ensure your dataset has both images/ and labels/ subdirectories.

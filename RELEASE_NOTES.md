@@ -1,5 +1,18 @@
 # OpenAxiom Release Notes
 
+## v1.0.8 - Launcher Docs Hotfix
+
+- Add integrated AIP/Axiom tools launch command:
+  `Set-Location E:\Axiom\tools\openaxiom` then `python .\launch.py`.
+- Document desktop launcher:
+  `C:\Users\74002\Desktop\StartOpenAxiom.bat`.
+- Clarify that OpenAxiom GUI launches as a local desktop tool, not as a
+  background service like AIP.
+- Clarify the difference between AIP readonly bridge usage and direct
+  OpenAxiom GUI annotation usage.
+- No core annotation logic, safe save, safe restore, batch save, dataset,
+  label, model, .venv, backup, or audit files changed.
+
 ## v1.0.7 - Docs Consistency Hotfix
 
 - Fix README release badge and development status to reflect the current
@@ -66,4 +79,5 @@ launcher messages, and empty dataset hints, without changing core annotation,
 bbox, coordinate conversion, safe save, safe restore, batch save, or
 multi-batch execution logic.
 v1.0.7 is a documentation consistency hotfix only.
+v1.0.8 is a launcher documentation hotfix only.
 
